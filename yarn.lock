@@ -10443,6 +10443,7 @@ fsevents@^1.2.7:
     react-redux: ^7.2.0
     react-scripts: 3.4.1
     reactstrap: ^8.5.1
+    redux: ^4.0.5
     redux-thunk: ^2.3.0
   languageName: unknown
   linkType: soft
@@ -12284,6 +12285,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"redux@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "redux@npm:4.0.5"
+  dependencies:
+    loose-envify: ^1.4.0
+    symbol-observable: ^1.2.0
+  checksum: bf8fcfa44db283545db4dd56043de7e164852ac81b61503f2c06e2c9a0d5670338c3722fe642134afb633346507f1568a309da9153c95d2213a0ff404d31625a
+  languageName: node
+  linkType: hard
+
 "regenerate-unicode-properties@npm:^8.1.0":
   version: 8.1.0
   resolution: "regenerate-unicode-properties@npm:8.1.0"
@@ -13813,6 +13824,13 @@ resolve@^1.15.1:
   bin:
     svgo: ./bin/svgo
   checksum: cfa94b7984952c8f976350eac72fda492436be44f4b4ce2a788a2be03fe90cc23bb958d4f1b98b0e2e003cb7b72edd9f3017dcf5c905c4576c2c6dddd24c9ed7
+  languageName: node
+  linkType: hard
+
+"symbol-observable@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "symbol-observable@npm:1.2.0"
+  checksum: b033c8d6fa245a68b421b891b2fe07a9459274593405250918c7aea7ce4e991a94b1491bae1b68a8d90bd05c35a2f6862258b97334931df13850fe4daa0b2999
   languageName: node
   linkType: hard
 
