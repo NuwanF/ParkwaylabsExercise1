@@ -192,6 +192,19 @@ const getAssetByIdAsync = (assetId) => {
     return new Promise((resolve) => setTimeout(() => resolve(asset), 500));
 };
 
+export function getAssetsByCollectionAsync(collectionId) {
+    return async (dispatch) => {
+        try {
+            const collectionAssets = assets.filter((asset) => asset.collectionId === collectionId);
+            //const assetList = await new Promise((resolve) => setTimeout(() => resolve(collectionAssets), 1000));
+            dispatch(addAssets(collectionAssets));
+
+        } catch (error) {
+            console.log('error' + error);
+        }
+    };
+}
+
 export const collectionsLoading = () => ({
     type: ActionTypes.COLLECTIONS_LOADING
 });
@@ -204,4 +217,9 @@ export const collectionsFailed = (errmess) => ({
 export const addCollections = (collections) => ({
     type: ActionTypes.ADD_COLLECTIONS,
     payload: collections
+});
+
+export const addAssets = (assets) => ({
+    type: ActionTypes.ADD_ASSETS,
+    payload: assets
 });

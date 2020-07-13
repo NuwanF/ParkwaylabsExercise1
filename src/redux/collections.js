@@ -4,7 +4,8 @@ export const Collections = (state =
     {
         isLoading: true,
         errMsg: null,
-        collections: []
+        collections: [],
+        assets: []
     },
     action) => {
     switch (action.type) {
@@ -17,6 +18,10 @@ export const Collections = (state =
 
         case ActionTypes.COLLECTIONS_FAILED:
             return { ...state, isLoading: false, errMsg: action.payload };
+
+        case ActionTypes.ADD_ASSETS:
+            debugger;
+            return { ...state, assets: [...action.payload] };
 
         default:
             return state;

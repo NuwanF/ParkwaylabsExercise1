@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import { connect } from 'react-redux';
-import { fetchCollections } from '../redux/ActionCreators';
+import { fetchCollections, getAssetsByCollectionAsync } from '../redux/ActionCreators';
 import Collection from './CollectionComponent';
 import { withRouter } from 'react-router-dom';
 
@@ -12,7 +12,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchCollections: () => { dispatch(fetchCollections()) }
+    fetchCollections: () => { dispatch(fetchCollections()) },
+    //getAssetsByCollectionAsync: (collectionId) => { dispatch(getAssetsByCollectionAsync(collectionId)) }
 });
 
 class Main extends Component {
@@ -23,6 +24,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.fetchCollections();
+        //this.props.getAssetsByCollectionAsync();
     }
 
     render() {
@@ -30,6 +32,7 @@ class Main extends Component {
             <div>
                 <Collection
                     collection={this.props.collections.collections}
+                // getAssetsByCollectionAsync={this.props.getAssetsByCollectionAsync}
                 // collectionsLoading={this.props.collections.isLoading}
                 // collectionsErrMess={this.props.collections.errMsg}
                 />
