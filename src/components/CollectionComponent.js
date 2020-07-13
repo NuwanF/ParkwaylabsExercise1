@@ -4,25 +4,10 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, Button, CardSubtitle
 } from 'reactstrap';
-//import { baseUrl } from '../shared/baseUrl';
 import { connect } from 'react-redux';
-import { getAssetsByCollectionAsync } from '../redux/ActionCreators';
+import { getAssetsByCollectionAsync, makeMasterAsync, sortByProp } from '../redux/ActionCreators';
 
 const baseUrl = '../assets/images/';
-
-const mapStateToProps = state => {
-    return {
-        assets: state.assets
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    getAssetsByCollectionAsync: (collectionId) => { dispatch(getAssetsByCollectionAsync(collectionId)) }
-});
-
-
-
-
 
 const Collection = (props) => {
     console.log('check', props);
@@ -48,50 +33,71 @@ const Collection = (props) => {
     }
 
     const RenderAsset = async (collectionId) => {
-        console.log('coll', collectionId);
         await props.getAssetsByCollectionAsync(collectionId);
-        console.log('asset', props);
-        if (props.assets && props.assets.length > 0) {
-            props.assets && props.assets.map((item) => {
-                return (
-                    <div className="col-12 col-md m-1">
-                        <Card>
-                            <CardImg src={baseUrl + item.path} alt={item.name} />
-                            <CardBody>
-                                <CardTitle>{item.name}</CardTitle>
-                            </CardBody>
-                        </Card>
-                    </div>
-                )
-            })
-        }
-        else return null;
+    }
+
+    const MakeMaster = (collectionId, assetId) => {
+        props.makeMasterAsync(collectionId, assetId);
+    }
+
+    const sortByPropName = (event) => {
+        props.sortByProp(event.target.value);
     }
 
     return (
         <div className="container">
             <div className="row align-items-start">
-                {
-                    props.collection && props.collection.map((item) => {
+                {props.collection &&
+                    props.collection.map((item) => {
                         return (
                             <div className="col-12 col-md m-1">
                                 <RenderController
                                     item={item}
-                                    props={props}
-                                // isLoading={props.collectionsLoading}
-                                // errMess={props.collectionsErrMess}
                                 />
                             </div>
-                        )
-                    })
-                }
+                        );
+                    })}
             </div>
+            {props.assets && props.assets.length > 0 ?
+                <div className="row align-items-start">
+                    <label for="cars">Sort Option:</label>
+                    <select onChange={sortByPropName}>
+                        <option value="id">Id</option>
+                        <option value="name">Name</option>
+                    </select>
+                </div>
+                : null}
             <div className="row align-items-start">
-                {RenderAsset()}
+                {props.assets && props.assets.length > 0
+                    ? props.assets.map((item) => {
+                        return (
+                            <div className="col-12 col-md m-1">
+                                <Card>
+                                    <CardImg src={baseUrl + item.path} alt={item.name} />
+                                    <CardBody>
+                                        <CardTitle>{item.name}</CardTitle>
+                                        <Button onClick={() => MakeMaster(item.collectionId, item.id)}>Make Master</Button>
+                                    </CardBody>
+                                </Card>
+                            </div>
+                        );
+                    })
+                    : null}
             </div>
         </div>
-
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        assets: state.collections.assets
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    getAssetsByCollectionAsync: (collectionId) => { dispatch(getAssetsByCollectionAsync(collectionId)) },
+    makeMasterAsync: (collectionId, assetId) => { dispatch(makeMasterAsync(collectionId, assetId)) },
+    sortByProp: (value) => { dispatch(sortByProp(value)) }
+});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collection);
