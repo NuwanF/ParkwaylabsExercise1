@@ -12,14 +12,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchCollections: () => { dispatch(fetchCollections()) }
+    fetchCollections: () => { dispatch(fetchCollections()) },
 });
 
 class Main extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.props.fetchCollections();
@@ -30,8 +26,6 @@ class Main extends Component {
             <div>
                 <Collection
                     collection={this.props.collections.collections}
-                // collectionsLoading={this.props.collections.isLoading}
-                // collectionsErrMess={this.props.collections.errMsg}
                 />
             </div>
         );
