@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, Button, CardSubtitle
+    Card, CardImg, CardBody, CardTitle, Button, CardFooter
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getAssetsByCollectionAsync, makeMasterAsync, sortByProp } from '../redux/ActionCreators';
@@ -10,10 +9,7 @@ import { getAssetsByCollectionAsync, makeMasterAsync, sortByProp } from '../redu
 const baseUrl = '../assets/images/';
 
 const Collection = (props) => {
-    console.log('check', props);
-
     const RenderController = ({ item, errMess }) => {
-
         if (errMess) {
             return (
                 <h4>{errMess}</h4>
@@ -61,7 +57,7 @@ const Collection = (props) => {
             </div>
             {props.assets && props.assets.length > 0 ?
                 <div className="row align-items-start">
-                    <label for="cars">Sort Option:</label>
+                    <label for="cars">Sort Option : </label>
                     <select onChange={sortByPropName}>
                         <option value="id">Id</option>
                         <option value="name">Name</option>
@@ -73,12 +69,13 @@ const Collection = (props) => {
                     ? props.assets.map((item) => {
                         return (
                             <div className="col-12 col-md m-1">
-                                <Card>
+                                <Card >
                                     <CardImg src={baseUrl + item.path} alt={item.name} />
                                     <CardBody>
                                         <CardTitle>{item.name}</CardTitle>
-                                        {props.masterAssetId !== item.id &&
+                                        {props.masterAssetId !== item.id ?
                                             <Button onClick={() => MakeMaster(item.collectionId, item.id)}>Make Master</Button>
+                                            : <CardFooter className="text-muted" >Master</CardFooter>
                                         }
                                     </CardBody>
                                 </Card>
@@ -97,6 +94,7 @@ const mapStateToProps = state => {
         masterAssetId: state.collections.masterAssetId
     }
 }
+
 const mapDispatchToProps = dispatch => ({
     getAssetsByCollectionAsync: (collectionId) => { dispatch(getAssetsByCollectionAsync(collectionId)) },
     makeMasterAsync: (collectionId, assetId) => { dispatch(makeMasterAsync(collectionId, assetId)) },
