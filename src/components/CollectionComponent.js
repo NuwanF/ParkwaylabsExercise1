@@ -25,15 +25,15 @@ const Collection = (props) => {
                     <CardImg src={baseUrl + item.imagePath} alt={item.imageName} />
                     <CardBody>
                         <CardTitle>{item.name}</CardTitle>
-                        <Button onClick={() => RenderAsset(item.id)}>Select</Button>
+                        <Button onClick={() => RenderAsset(item)}>Select</Button>
                     </CardBody>
                 </Card>
             );
         }
     }
 
-    const RenderAsset = async (collectionId) => {
-        await props.getAssetsByCollectionAsync(collectionId);
+    const RenderAsset = async (collection) => {
+        await props.getAssetsByCollectionAsync(collection);
     }
 
     const MakeMaster = (collectionId, assetId) => {
@@ -44,6 +44,7 @@ const Collection = (props) => {
         props.sortByProp(event.target.value);
     }
 
+    console.log('masterasset', props.masterAssetId);
     return (
         <div className="container">
             <div className="row align-items-start">
@@ -76,7 +77,9 @@ const Collection = (props) => {
                                     <CardImg src={baseUrl + item.path} alt={item.name} />
                                     <CardBody>
                                         <CardTitle>{item.name}</CardTitle>
-                                        <Button onClick={() => MakeMaster(item.collectionId, item.id)}>Make Master</Button>
+                                        {props.masterAssetId !== item.id &&
+                                            <Button onClick={() => MakeMaster(item.collectionId, item.id)}>Make Master</Button>
+                                        }
                                     </CardBody>
                                 </Card>
                             </div>
@@ -90,7 +93,8 @@ const Collection = (props) => {
 
 const mapStateToProps = state => {
     return {
-        assets: state.collections.assets
+        assets: state.collections.assets,
+        masterAssetId: state.collections.masterAssetId
     }
 }
 const mapDispatchToProps = dispatch => ({

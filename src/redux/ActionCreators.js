@@ -40,12 +40,12 @@ const getAssetByIdAsync = (assetId) => {
     return new Promise((resolve) => setTimeout(() => resolve(asset), 500));
 };
 
-export function getAssetsByCollectionAsync(collectionId) {
+export function getAssetsByCollectionAsync(collection) {
     return async (dispatch) => {
         try {
-            const collectionAssets = assets.filter((asset) => asset.collectionId === collectionId);
+            const collectionAssets = assets.filter((asset) => asset.collectionId === collection.id);
             const assetList = await new Promise((resolve) => setTimeout(() => resolve(collectionAssets), 1000));
-            dispatch(addAssets(assetList));
+            dispatch(addAssets({ assets: assetList, masterAssetId: collection.masterAssetId }));
 
         } catch (error) {
             console.log('error' + error);
